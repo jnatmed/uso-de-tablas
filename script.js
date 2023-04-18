@@ -23,31 +23,52 @@ class Table {
     }
 }
 
+function $create(nameElement){
+    return document.createElement(nameElement);
+}
+
 function $createAndInsert(nameElement, valorCampo){
-    let campo = document.createElement(nameElement);
+    let campo = $create(nameElement);
     campo.appendChild(document.createTextNode(valorCampo));
     return campo;
 }
 
-let table = new Table();
-let fila = new Dato();
 
+function $resetForm(){
+    $('expte').value = '';
+    $('detalle').value = '';
+    $('usuario_destino').value = '';
+    $('sector_destino').value = '';
+    $('mesa_destino').value = '';
+}
 
+let table = $create('table');
+let tbody = $create('tbody');
 
 let btnInsertar = $('btn-insertar');
 
+let body = document.getElementsByTagName("body")[0];
+
+
 btnInsertar.onclick =  function(){
 
-    
     let datos = [
-        $createAndInsert('td',$('expte').text),
-        $createAndInsert('td',$('detalle').text),
-        $createAndInsert('td',$('usuario_destino').text),
-        $createAndInsert('td',$('sector_destino').text),
-        $createAndInsert('td',$('mesa_destino').text)
+        $createAndInsert('td',$('expte').value),
+        $createAndInsert('td',$('detalle').value),
+        $createAndInsert('td',$('usuario_destino').value),
+        $createAndInsert('td',$('sector_destino').value),
+        $createAndInsert('td',$('mesa_destino').value)
     ];
     
-    datos.forEach(function(element){
-        console.log("element: " + element);
-    })
+    let fila = $create("tr");
+    datos.forEach(function(celda){
+        fila.appendChild(celda)
+    });
+
+    tbody.appendChild(fila);
+    table.appendChild(tbody);
+    body.appendChild(table);
+    table.setAttribute("border", "2");
+
+    $resetForm();
 };
